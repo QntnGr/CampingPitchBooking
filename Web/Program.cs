@@ -7,12 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<CatalogContext>();
 
 builder.Services.AddScoped<ICatalogService, CatalogService>();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
