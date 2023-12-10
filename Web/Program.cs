@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<CatalogContext>();
 
+builder.Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 

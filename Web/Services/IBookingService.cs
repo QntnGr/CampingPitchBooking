@@ -1,8 +1,9 @@
-﻿using Web.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using Web.Entities;
 
 namespace Web.Services;
 
 public interface IBookingService
 {
-    CookieOptions BuildCookieBooking(Booking item);
+    OkObjectResult AddCookieBooking(Booking item);
 }

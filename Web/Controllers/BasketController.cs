@@ -25,11 +25,7 @@ public class BasketController : ControllerBase
     [ProducesResponseType(403)]
     public OkObjectResult AddToBasket(Booking booking)
     {
-        var cookieOptions = _bookingService.BuildCookieBooking(booking);
-        var cookieValue = JsonSerializer.Serialize(booking);
-        HttpContext.Response.Cookies.Append(Constants.BookingCookiesName, cookieValue, cookieOptions);
-
-        return Ok("Cookie booking ajouté avec succès");
+        return _bookingService.AddCookieBooking(booking);
     }
 
     [HttpGet]

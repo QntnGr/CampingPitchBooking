@@ -1,19 +1,22 @@
-﻿using Web.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using Web.Entities;
+using Web.Helpers;
 using Web.Infrastructure;
 
 namespace Web.Services
 {
     public class BookingService : IBookingService
     {
-        CatalogContext _dbContext;
-        public BookingService(CatalogContext catalogContext) 
-        { 
-            _dbContext = catalogContext;        
+        IHttpContextAccessor _httpContextAccessor;
+        public BookingService(IHttpContextAccessor httpContextAccessor) 
+        {
+            _httpContextAccessor = httpContextAccessor;        
         }
 
-        public CookieOptions BuildCookieBooking(Booking item)
+        public OkObjectResult AddCookieBooking(Booking item)
         {
-            return new CookieOptions
+            var options =  new CookieOptions
             {
                 Domain = "Booking",
                 Path = "/",
@@ -21,6 +24,11 @@ namespace Web.Services
                 Secure = false,
                 Expires = DateTime.Now.AddHours(1) // Définir la durée de vie du cookie
             };
+
+            var cookieValue = JsonSerializer.Serialize(item);
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(Constants.BookingCookiesName, cookieValue, options);
+
+            return new OkObjectResult("Cookie Booking added.");
         }
 
     }
